@@ -29,6 +29,6 @@ data文件夹中包含了1000条10分类的样本数据，并分为训练和测�
 ![alt text](https://github.com/Socialbird-AILab/BERT-Classification-Tutorial/blob/master/pictures/Our%20data%20example.png)
 
 # 5.实现细节
-运行run_classifier.py实现1000条10分类样本数据的文本分类任务。具体实现细节请参考教程。
+运行run_classifier.py实现1000条10分类样本数据的文本分类任务。具体实现细节请参考教程:https://mp.weixin.qq.com/s/XmeDjHSFI0UsQmKeOgwnyA
 
 
