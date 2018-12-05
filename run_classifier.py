@@ -334,12 +334,9 @@ class ColaProcessor(DataProcessor):
         return examples
 
 
-def convert_single_example(ex_index, example, label_list, max_seq_length,
+def convert_single_example(ex_index, example, label_map, max_seq_length,
                            tokenizer):
     """Converts a single `InputExample` into a single `InputFeatures`."""
-    label_map = {}
-    for (i, label) in enumerate(label_list):
-        label_map[label] = i
 
     tokens_a = tokenizer.tokenize(example.text_a)
     tokens_b = None
@@ -423,7 +420,7 @@ def convert_single_example(ex_index, example, label_list, max_seq_length,
         input_mask=input_mask,
         segment_ids=segment_ids,
         label_id=label_id)
-    return feature, label_map
+    return feature
 
 
 def file_based_convert_examples_to_features(
@@ -431,12 +428,16 @@ def file_based_convert_examples_to_features(
     """Convert a set of `InputExample`s to a TFRecord file."""
 
     writer = tf.python_io.TFRecordWriter(output_file)
-
+    
+    label_map = {}
+    for (i, label) in enumerate(sorted(label_list)):
+        label_map[label] = i
+        
     for (ex_index, example) in enumerate(examples):
         if ex_index % 10000 == 0:
             tf.logging.info("Writing example %d of %d" % (ex_index, len(examples)))
 
-        feature, label_map = convert_single_example(ex_index, example, label_list,
+        feature = convert_single_example(ex_index, example, label_map,
                                                     max_seq_length, tokenizer)
 
         def create_int_feature(values):
